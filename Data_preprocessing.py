@@ -29,7 +29,7 @@ class FeatureSelector(BaseEstimator, TransformerMixin):
         return X[self.attribute_names].values
 
 # Function to calculate the most frequent label in a feature
-def FeatureLabelImputer(f):
+def impute_txtcat_feature(f):
     return df[f].fillna(df[f].value_counts().index[0], inplace=True)
 
 # Class to remove (extraneous) dummy feature
@@ -103,7 +103,7 @@ numcat_pipeline = Pipeline([
 # Note: An alternative method is to use pandas.get_dummies(data, drop_first=True)
 txtcat_pipeline = Pipeline([
             ('selector', FeatureSelector(txtcat_features)),
-            ('imputer', FeatureLabelImputer(txtcat_features)),
+            ('imputer', impute_txtcat_feature(txtcat_features)),
             ('binarizer', LabelBinarizer()),
             ('remover', FeatureDropFirst()),
         ])
