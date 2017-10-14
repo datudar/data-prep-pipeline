@@ -1,15 +1,20 @@
-## Data Preparation Pipeline
+## Data Preprocessing Pipeline
 
-This is a pipeline to handle binary, categorical, and numerical data.
+This is a data prep pipeline that handles binary, categorical, and numerical data. The sample data file ("Data_example.csv") contains multiple features.
 
-### Introduction
+### Binary features
+- these are features that have two categories labeled either 1 or 0
+- we want to keep the columns as they are
 
-### Implementation
+### Numerical categorical features
+- these are features that have at least three numerical categories
+- we want to tranform them into dummy variables
 
-The following data file is required:
-- Data_example.csv
+### Textual categorical features
+- these are features that have at least three textual categories
+- we want to tranform them into dummy variables
 
-### Output file for the second round
+### Numercial features
+- these features that are numerical such as integers and floats
+- we want to normalize these values
 
-There is only one output file, which is the submission file:
-- submission_2.csv

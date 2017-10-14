@@ -52,15 +52,25 @@ df = pd.read_csv(DATA_FILE, index_col=ID, header=0)
 
 # Select features: binary ('bin'), numerical categorical ('numcat'),
 # textual categorical ('strcat'), and numerical ('num'). 
-# bin: these are features that have two categories that are labeled either 1 or 0
-# numcat: these are features that have at least three numerical categories 
-# strcat: these are features that have at least three textual categories
-# num: these features that are numerical such as integers and floats
+#
+# bin: 1. these are features that have two categories labeled either 1 or 0
+# ===  2. we want to keep the columns as they are
+#
+# numcat: 1. these are features that have at least three numerical categories
+# ======  2. we want to tranform them into dummy variables
+#
+# txtcat: 1. these are features that have at least three textual categories
+# ======  2. we want to tranform them into dummy variables
+#
+# num: 1. these features that are numerical such as integers and floats
+# ===  2. we want to normalize these values
 
 bin_features = [f for f in df.columns if f[3:len(f)] == 'bin']
 numcat_features = [f for f in df.columns if f[3:len(f)] == 'numcat']
-# Note: this only works on one textual categorical feature
-strcat_features = ''.join([f for f in df.columns if f[3:len(f)] == 'strcat'])
+# Note: for textual categorical features, I only know how to apply it
+# on one column at a time. In a future version, I will try to make it 
+# work on a list of features all in one pipeline
+txtcat_features = 'x5_txtcat'
 num_features = [f for f in df.columns if f[3:len(f)] == 'num']
 
 #==============================================================================
@@ -91,9 +101,9 @@ numcat_pipeline = Pipeline([
 # 3. Create binary features for each category
 # 4. Due to multi-collinearity concerns, remove the firt dummy feature to retain n-1 dummy features
 # Note: An alternative method is to use pandas.get_dummies(data, drop_first=True)
-strcat_pipeline = Pipeline([
-            ('selector', FeatureSelector(strcat_features)),
-            ('imputer', FeatureLabelImputer(strcat_features)),
+txtcat_pipeline = Pipeline([
+            ('selector', FeatureSelector(txtcat_features)),
+            ('imputer', FeatureLabelImputer(txtcat_features)),
             ('binarizer', LabelBinarizer()),
             ('remover', FeatureDropFirst()),
         ])
@@ -111,7 +121,7 @@ num_pipeline = Pipeline([
 full_pipeline = FeatureUnion(transformer_list=[
         ("bin_pipeline", bin_pipeline),
         ("numcat_pipeline", numcat_pipeline),
-        ("strcat_pipeline", strcat_pipeline),
+        ("txtcat_pipeline", txtcat_pipeline),
         ("num_pipeline", num_pipeline),
     ])
 
