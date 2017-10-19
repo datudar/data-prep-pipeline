@@ -11,8 +11,7 @@ from sklearn.pipeline import Pipeline
 from sklearn.pipeline import FeatureUnion
 # Data preprocessing
 from sklearn.preprocessing import Imputer
-from sklearn.preprocessing import OneHotEncoder
-from sklearn.preprocessing import LabelBinarizer
+from sklearn.preprocessing import LabelEncoder
 from sklearn.preprocessing import StandardScaler
 
 #==============================================================================
@@ -23,24 +22,42 @@ from sklearn.preprocessing import StandardScaler
 class FeatureSelector(BaseEstimator, TransformerMixin):
     def __init__(self, attribute_names):
         self.attribute_names = attribute_names
-    def fit(self, X, y=None):
+    def fit(self, x):
         return self
-    def transform(self, X):
-        return X[self.attribute_names].values
+    def transform(self, x):
+        return x[self.attribute_names].values
 
-# Function to calculate the most frequent label in a feature
-def impute_txtcat_feature(f):
-    return df[f].fillna(df[f].value_counts().index[0], inplace=True)
-
-# Class to remove (extraneous) dummy feature
-class FeatureDropFirst(BaseEstimator, TransformerMixin):
-    def __init__(self):
-        pass    
-    def fit(self, X, y=None):
+# Class to impute textual category
+class ImputerTextualCategory(BaseEstimator, TransformerMixin):
+    def __init__(self, attribute_names):
+        self.attribute_names = attribute_names    
+    def fit(self, df, y=None):
         return self
-    def transform(self, X):
-        return X[:, 1:]
+    def transform(self, x): 
+        return pd.DataFrame(x).apply(lambda x: x.fillna(x.value_counts().index[0]))
 
+# Class to encode lables across multiple columns
+class MultiColumnLabelEncoder(BaseEstimator, TransformerMixin):
+    def __init__(self, astype=int):
+        self.astype = astype
+    def fit(self, x, y=None):
+        return self
+    def transform(self, x, y=None):
+        if self.astype == int:
+            return pd.DataFrame(x).apply(LabelEncoder().fit_transform)
+        else:
+            return pd.DataFrame(x).apply(LabelEncoder().fit_transform).astype(str)
+                            
+# Class for one-hot encoding of textual categorical values and optionally
+# drop (extraneous) dummy feature
+class GetDummies(BaseEstimator, TransformerMixin):
+    def __init__(self, drop_first=False):
+        self.drop_first = drop_first
+    def fit(self, x, y=None):
+        return self
+    def transform(self, x):
+        return pd.get_dummies(x, drop_first=self.drop_first)
+    
 #==============================================================================
 # Data import
 #==============================================================================
@@ -67,10 +84,7 @@ df = pd.read_csv(DATA_FILE, index_col=ID, header=0)
 
 bin_features = [f for f in df.columns if f[3:len(f)] == 'bin']
 numcat_features = [f for f in df.columns if f[3:len(f)] == 'numcat']
-# Note: for textual categorical features, I only know how to apply it
-# on one column at a time. In a future version, I will try to make it 
-# work on a list of features all in one pipeline
-txtcat_features = 'x5_txtcat'
+txtcat_features = [f for f in df.columns if f[3:len(f)] == 'txtcat']
 num_features = [f for f in df.columns if f[3:len(f)] == 'num']
 
 #==============================================================================
@@ -86,26 +100,25 @@ bin_pipeline = Pipeline([
 
 # 1. Select features
 # 2. Impute missing values with the median
-# 3. Create binary features for each category
-# 4. Due to ulti-collinearity, remove one feature to retain n-1 dummy features
-# Note: An alternative is use get_dummies in pandas with drop_first=True
+# 3. Encode each feature and set the type to string so that the GetDummies class
+#    (which uses pandas.get_dummies) can tranform labels into dummy variables 
+# 4. Create one-hot encoding for each feature and (due to multi-collinearity concerns)
+#    remove the first dummy feature to retain n-1 dummy features
 numcat_pipeline = Pipeline([
-        ('selector', FeatureSelector(numcat_features)),
+        ('selector', FeatureSelector(np.array(numcat_features))),
         ('imputer', Imputer(missing_values=np.nan, strategy='median', axis=0)),
-        ('encoder', OneHotEncoder(sparse=False)),
-        ('remover', FeatureDropFirst()),        
-    ])
+        ('labelencoder', MultiColumnLabelEncoder(astype=str)),
+        ('getdummies', GetDummies(drop_first=True)),
+       ])
 
 # 1. Select features
 # 2. Impute missing values with the most frequent category
-# 3. Create binary features for each category
-# 4. Due to multi-collinearity concerns, remove the firt dummy feature to retain n-1 dummy features
-# Note: An alternative method is to use pandas.get_dummies(data, drop_first=True)
+# 3. Create one-hot encoding for each feature and (for multi-collinearity concerns)
+#    remove the first dummy feature to retain n-1 dummy features
 txtcat_pipeline = Pipeline([
-            ('selector', FeatureSelector(txtcat_features)),
-            ('imputer', impute_txtcat_feature(txtcat_features)),
-            ('binarizer', LabelBinarizer()),
-            ('remover', FeatureDropFirst()),
+        ('selector', FeatureSelector(np.array(txtcat_features))),
+        ('imputer', ImputerTextualCategory(txtcat_features)),
+        ('getdummies', GetDummies(drop_first=True)),
         ])
   
 # 1. Select features
@@ -128,6 +141,6 @@ full_pipeline = FeatureUnion(transformer_list=[
 # Execute entire pipeline. If the output is a sparse matrix,
 # then convert it to a dense matrix using the toarray method.
 try:
-    final_data = full_pipeline.fit_transform(df).toarray()
+    final_data = pd.DataFrame(full_pipeline.fit_transform(df).toarray())
 except AttributeError:
-    final_data = full_pipeline.fit_transform(df)
+    final_data = pd.DataFrame(full_pipeline.fit_transform(df))
