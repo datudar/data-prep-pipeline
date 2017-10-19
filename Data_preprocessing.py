@@ -15,10 +15,10 @@ from sklearn.preprocessing import LabelEncoder
 from sklearn.preprocessing import StandardScaler
 
 #==============================================================================
-# Custom classes and functions
+# Custom transformer classes
 #==============================================================================
 
-# Class to select columns since Scikit-Learn doesn't handle DataFrames yet
+# Class to select columns
 class FeatureSelector(BaseEstimator, TransformerMixin):
     def __init__(self, attribute_names):
         self.attribute_names = attribute_names
@@ -29,8 +29,8 @@ class FeatureSelector(BaseEstimator, TransformerMixin):
 
 # Class to impute textual category
 class ImputerTextualCategory(BaseEstimator, TransformerMixin):
-    def __init__(self, attribute_names):
-        self.attribute_names = attribute_names    
+    def __init__(self):
+        pass  
     def fit(self, df, y=None):
         return self
     def transform(self, x): 
@@ -109,7 +109,7 @@ numcat_pipeline = Pipeline([
         ('imputer', Imputer(missing_values=np.nan, strategy='median', axis=0)),
         ('labelencoder', MultiColumnLabelEncoder(astype=str)),
         ('getdummies', GetDummies(drop_first=True)),
-       ])
+    ])
 
 # 1. Select features
 # 2. Impute missing values with the most frequent category
@@ -117,9 +117,9 @@ numcat_pipeline = Pipeline([
 #    remove the first dummy feature to retain n-1 dummy features
 txtcat_pipeline = Pipeline([
         ('selector', FeatureSelector(np.array(txtcat_features))),
-        ('imputer', ImputerTextualCategory(txtcat_features)),
+        ('imputer', ImputerTextualCategory()),
         ('getdummies', GetDummies(drop_first=True)),
-        ])
+    ])
   
 # 1. Select features
 # 2. Impute missing values with the mean
