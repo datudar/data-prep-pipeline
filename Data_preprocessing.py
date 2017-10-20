@@ -112,7 +112,7 @@ numcat_pipeline = Pipeline([
     ])
 
 # 1. Select features
-# 2. Impute missing values with the most frequent category
+# 2. Impute missing values with the most frequent
 # 3. Create one-hot encoding for each feature and (for multi-collinearity concerns)
 #    remove the first dummy feature to retain n-1 dummy features
 txtcat_pipeline = Pipeline([
@@ -144,7 +144,10 @@ try:
     final_data = pd.DataFrame(full_pipeline.fit_transform(df).toarray())
 except AttributeError:
     final_data = pd.DataFrame(full_pipeline.fit_transform(df))
+<<<<<<< HEAD
 
 #==============================================================================
 # The End
 #==============================================================================
+=======
+>>>>>>> baf0143dd32411f63f9b5e00c606b6af4d96a111
