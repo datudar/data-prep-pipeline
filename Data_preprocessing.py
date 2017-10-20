@@ -74,10 +74,10 @@ df = pd.read_csv(DATA_FILE, index_col=ID, header=0)
 # ===  2. we want to keep the columns as they are
 #
 # numcat: 1. these are features that have at least three numerical categories
-# ======  2. we want to tranform them into dummy variables
+# ======  2. we want to transform them into dummy variables
 #
 # txtcat: 1. these are features that have at least three textual categories
-# ======  2. we want to tranform them into dummy variables
+# ======  2. we want to transform them into dummy variables
 #
 # num: 1. these features that are numerical such as integers and floats
 # ===  2. we want to normalize these values
@@ -101,7 +101,7 @@ bin_pipeline = Pipeline([
 # 1. Select features
 # 2. Impute missing values with the median
 # 3. Encode each feature and set the type to string so that the GetDummies class
-#    (which uses pandas.get_dummies) can tranform labels into dummy variables 
+#    (which uses pandas.get_dummies) can transform labels into dummy variables 
 # 4. Create one-hot encoding for each feature and (due to multi-collinearity concerns)
 #    remove the first dummy feature to retain n-1 dummy features
 numcat_pipeline = Pipeline([
@@ -144,3 +144,7 @@ try:
     final_data = pd.DataFrame(full_pipeline.fit_transform(df).toarray())
 except AttributeError:
     final_data = pd.DataFrame(full_pipeline.fit_transform(df))
+
+#==============================================================================
+# The End
+#==============================================================================
