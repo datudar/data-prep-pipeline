@@ -1,4 +1,4 @@
-## Data Preprocessing Pipeline
+### Data Preprocessing Pipeline
 
 As data scientists, a lot of our time is spent cleaning and transforming data in some meaningful way. This is a data preprocessing pipeline is a helpful tool for handling heterogeneous data such as binary, categorical, and numerical data. The basic steps in the pipeline are:
 
