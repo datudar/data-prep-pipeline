@@ -1,6 +1,6 @@
 ### Data Preprocessing Pipeline
 
-This is a data preprocessing tool for handling heterogeneous data such as binary, categorical, and numerical data. The output of the pipeline is a NumPy array that one can feed directly into a Scikit-Learn algorithm.
+This is a data preprocessing tool for handling heterogeneous data such as binary, categorical (both numerical and textual), and numerical data. The output of this pipeline is a NumPy array that you can feed directly into a Scikit-learn algorithm.
 
 The basic steps in the pipeline are:
 
@@ -13,16 +13,12 @@ The basic steps in the pipeline are:
 - These are features that have two categories labeled either 1 or 0
 - We want to keep the features as they are
 
-#### Numerical categorical features
+#### Categorical features
 
-- These are features that have **at least three** numerical categories
-- We want to transform these features into dummy variables of ones and zeros
-- Also, due to multicollinearty concerns, we would also like to drop one of the dummy variable so that we are left with n-1 dummies
-
-#### Textual categorical features
-
-- These are features that have **at least three** textual categories
+- **Numerical categories**: These are features that have **at least three** numerical categories and have no order.
+- **Textual categories**: These are features that have **at least three** textual categories
 - We want to transform them into dummy variables of ones and zeros
+- Also, due to multi-collinearty concerns, we would also like to drop one of the dummy variables so that we are left with n-1 dummies
 
 #### Numerical features
 
