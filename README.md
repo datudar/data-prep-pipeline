@@ -15,7 +15,7 @@ The basic steps in the pipeline are:
 
 ### Categorical features
 
-- **Numerical categories**: These are features that have **at least three** numerical categories and have no order.
+- **Numerical categories**: These are features that have **at least three** numerical categories and have no order
 - **Textual categories**: These are features that have **at least three** textual categories
 - We want to transform them into dummy variables of ones and zeros
 - Due to multi-collinearity concerns, we also drop one of the dummy variables so that we are left with n-1 dummies
