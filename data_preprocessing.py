@@ -36,7 +36,7 @@ class ImputerTextualCategory(BaseEstimator, TransformerMixin):
     def transform(self, x): 
         return pd.DataFrame(x).apply(lambda x: x.fillna(x.value_counts().index[0]))
 
-# Class to encode lables across multiple columns
+# Class to encode labels across multiple columns
 class MultiColumnLabelEncoder(BaseEstimator, TransformerMixin):
     def __init__(self, astype=int):
         self.astype = astype
@@ -49,7 +49,7 @@ class MultiColumnLabelEncoder(BaseEstimator, TransformerMixin):
             return pd.DataFrame(x).apply(LabelEncoder().fit_transform).astype(str)
                             
 # Class for one-hot encoding of textual categorical values and optionally
-# drop (extraneous) dummy feature
+# drop the first dummy feature (if multi-collinearity is a concern)
 class GetDummies(BaseEstimator, TransformerMixin):
     def __init__(self, drop_first=False):
         self.drop_first = drop_first
@@ -57,7 +57,7 @@ class GetDummies(BaseEstimator, TransformerMixin):
         return self
     def transform(self, x):
         return pd.get_dummies(x, drop_first=self.drop_first)
-    
+
 #==============================================================================
 # Data import
 #==============================================================================
