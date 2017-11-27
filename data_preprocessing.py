@@ -4,6 +4,8 @@
 
 import numpy as np
 import pandas as pd
+# Utilities
+from sklearn.utils import resample
 # Transformer to select a subset of the Pandas DataFrame columns
 from sklearn.base import BaseEstimator, TransformerMixin    
 # Pipeline
@@ -13,6 +15,9 @@ from sklearn.pipeline import FeatureUnion
 from sklearn.preprocessing import Imputer
 from sklearn.preprocessing import LabelEncoder
 from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import PolynomialFeatures
+# Feature selection
+from sklearn.feature_selection import VarianceThreshold
 
 #==============================================================================
 # Custom transformer classes
@@ -59,13 +64,47 @@ class GetDummies(BaseEstimator, TransformerMixin):
         return pd.get_dummies(x, drop_first=self.drop_first)
 
 #==============================================================================
-# Data import
+# Initialization Settings
 #==============================================================================
 
 ID = 'id'
-DATA_FILE = "Data_example.csv"
+Y = 'y'
+DIR = "input"
+DATAFILE = "{0}/data_example.csv".format(DIR)
+NTRAINROWS = None # Number of rows of data file to read; None reads all rows
+UPSAMPLEPCT = .4 # Percent of samples to have positive class; 0 <= pct < 1
+SEED = 42 # Seed state for reproducibility
+VARTHRESHOLD = .001 # Minimum variability allowed for features
 
-df = pd.read_csv(DATA_FILE, index_col=ID, header=0)
+#==============================================================================
+# Data import
+#==============================================================================
+
+df = pd.read_csv(DATAFILE, index_col=ID, header=0, nrows=NTRAINROWS)
+
+# Separate majority and minority classes
+df_majority = df[df[Y]==0]
+df_minority = df[df[Y]==1]
+
+# Upsample minority class with replacement
+df_minority_sampled = resample(df_minority, 
+                               replace=True,
+                               n_samples=int(UPSAMPLEPCT*df_majority.shape[0]/(1-UPSAMPLEPCT)),
+                               random_state=SEED)
+ 
+# Combine majority class with upsampled minority class
+df_sampled = pd.concat([df_majority, df_minority_sampled])
+
+# Shuffle all the samples
+df_sampled = resample(df_sampled, replace=False, random_state=SEED)
+
+# Separate y and X variables
+y = df_sampled[Y]
+X = df_sampled.loc[:, df_sampled.columns != Y]
+
+#==============================================================================
+# Preprocessing pipeline
+#==============================================================================
 
 # Select features: binary ('bin'), numerical categorical ('numcat'),
 # textual categorical ('strcat'), and numerical ('num'). 
@@ -82,20 +121,17 @@ df = pd.read_csv(DATA_FILE, index_col=ID, header=0)
 # num: 1. these features that are numerical such as integers and floats
 # ===  2. we want to normalize these values
 
-bin_features = [f for f in df.columns if f[3:len(f)] == 'bin']
-numcat_features = [f for f in df.columns if f[3:len(f)] == 'numcat']
-txtcat_features = [f for f in df.columns if f[3:len(f)] == 'txtcat']
-num_features = [f for f in df.columns if f[3:len(f)] == 'num']
-
-#==============================================================================
-# Preprocessing pipeline
-#==============================================================================
+bin_features = [f for f in X.columns if f[3:len(f)] == 'bin']
+numcat_features = [f for f in X.columns if f[3:len(f)] == 'numcat']
+txtcat_features = [f for f in X.columns if f[3:len(f)] == 'txtcat']
+num_features = [f for f in X.columns if f[3:len(f)] == 'num']
 
 # 1. Select features
 # 2. Impute missing values with the median
 bin_pipeline = Pipeline([
         ('selector', FeatureSelector(bin_features)),
         ('imputer', Imputer(missing_values=np.nan, strategy='median', axis=0)),
+        ('threshold', VarianceThreshold(VARTHRESHOLD)),
     ])
 
 # 1. Select features
@@ -109,6 +145,7 @@ numcat_pipeline = Pipeline([
         ('imputer', Imputer(missing_values=np.nan, strategy='median', axis=0)),
         ('labelencoder', MultiColumnLabelEncoder(astype=str)),
         ('getdummies', GetDummies(drop_first=True)),
+        ('threshold', VarianceThreshold(VARTHRESHOLD)),
     ])
 
 # 1. Select features
@@ -119,6 +156,7 @@ txtcat_pipeline = Pipeline([
         ('selector', FeatureSelector(np.array(txtcat_features))),
         ('imputer', ImputerTextualCategory()),
         ('getdummies', GetDummies(drop_first=True)),
+        ('threshold', VarianceThreshold(VARTHRESHOLD)),
     ])
   
 # 1. Select features
@@ -127,7 +165,9 @@ txtcat_pipeline = Pipeline([
 num_pipeline = Pipeline([
         ('selector', FeatureSelector(num_features)),
         ('imputer', Imputer(missing_values=np.nan, strategy='mean', axis=0)),
+        ('poly', PolynomialFeatures(2, interaction_only=False)),
         ('normalizer', StandardScaler()),
+        ('threshold', VarianceThreshold(VARTHRESHOLD)),
     ])
 
 # Combine all pipelines into a single pipeline
@@ -141,9 +181,9 @@ full_pipeline = FeatureUnion(transformer_list=[
 # Execute entire pipeline. If the output is a sparse matrix,
 # then convert it to a dense matrix using the toarray method.
 try:
-    final_data = pd.DataFrame(full_pipeline.fit_transform(df).toarray())
+    X = pd.DataFrame(full_pipeline.fit_transform(X).toarray())
 except AttributeError:
-    final_data = pd.DataFrame(full_pipeline.fit_transform(df))
+    X = pd.DataFrame(full_pipeline.fit_transform(X))
 
 #==============================================================================
 # The End
