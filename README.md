@@ -1,15 +1,10 @@
 ## Data Preprocessing Pipeline
 
-This is a [preprocessing pipeline](/data_preprocessing.py) for handling heterogeneous data such as binary, categorical, and numerical data. The [example data](/input/data_example.csv) contains ten samples with one target column (y) and eight feature columns (X).
+This is a [preprocessing pipeline](/data_preprocessing.py) for handling heterogeneous data such as binary, categorical, and numerical data in tabular form. The [example data](/input/data_example.csv) contains ten samples with one target column, labeled "y", and eight feature columns.
 
-The basic steps in the pipeline are:
+The data is intentionally imbalanced (i.e., there are just a couple of examples of the positive class, "y" = 1), so we first "upsample" the positive class. Then, we feed the upsampled data through a pipeline which performs: **feature selection**, **imputation** of missing values, **feature engineering** by adding polynomial and interaction features, and **transformation** using normalization scaling. The steps in this particular pipeline are purely for demonstration purposes, so it is highly recommended you modify the pipeline to suit the needs of your analysis. 
 
- 1. feature selection
- 2. imputation
- 3. feature engineering
- 4. transformation
-
-The data is intentionally imbalanced (i.e., few samples where y=1), so data is first "upsampled" before it is run through the pipeline. After the data has been upsampled and fed through pipeline, the final data will contain thirteen samples with sixteen feature columns. The output, y and X, can then be fed directly into a machine learning library such as Scikit-learn.
+The final data will contain thirteen samples with sixteen feature columns. The output, y and X, can then be fed directly into a machine learning library such as Scikit-learn.
 
 ### Binary features
 
