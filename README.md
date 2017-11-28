@@ -1,6 +1,8 @@
 ## Data Preprocessing Pipeline
 
-This is a preprocessing [pipeline](/data_preprocessing.py) for handling heterogeneous data such as binary, categorical, and numerical data.
+This is a preprocessing [pipeline](/data_preprocessing.py) for handling heterogeneous data such as binary, categorical, and numerical data. 
+
+**The steps in this particular pipeline are purely for demonstration purposes, so it is highly recommended you modify the pipeline to suit the needs of your analysis.**
 
 #### Binary features
 - These are features that have two categories labeled either 1 or 0
@@ -15,8 +17,6 @@ This is a preprocessing [pipeline](/data_preprocessing.py) for handling heteroge
 - We want to apply some normalization technique on these values
 
 ### Implementation
-
-**The steps in this particular pipeline are purely for demonstration purposes, so it is highly recommended you modify the pipeline to suit the needs of your analysis.**
 
 The example [data file](/input/data_example.csv) contains ten samples with one target column, labeled "y", and eight feature columns of various data types. The pipeline reads in theis data and performs a few basic data preprocessing steps.
 
