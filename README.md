@@ -29,10 +29,10 @@ The pipeline reads in the data and performs a few basic preprocessing steps.
 First, the data is "upsampled" as it is intentionally imbalanced (i.e., there are only two examples of the positive class).
 
 Then, we feed the upsampled data through a pipeline which performs: 
-1. **feature selection**
-2. **imputation** of missing values
-3. **feature engineering** by creating dummy variables, adding polynomial features, and adding interaction features
-4. **transformation** using normalization scaling
+	1. **feature selection**
+	2. **imputation** of missing values
+	3. **feature engineering** by creating dummy variables, adding polynomial features, and adding interaction features
+	4. **transformation** using normalization scaling
 
 Finally, the pipeline outputs thirteen samples with sixteen features. The output, y and X, are now ready for further analysis.
 
