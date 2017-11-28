@@ -9,11 +9,10 @@ Note: The steps in this particular pipeline are purely for demonstration purpose
 The example [data file](/input/data_example.csv) contains ten made-up samples of one target column (labeled "y") and eight feature columns of various data categories. The following are characteristics of the three data categories:
 
 #### Target
-- The target column has two categories: the positive class or the negative class, which are labeled 1 or 0, respectively
+- The target column has two categories: the positive class and the negative class, which are labeled 1 and 0, respectively
 
 #### Features
 - **Binary features**: columns 1 and 2
-	* These features are labeled 1 or 0
 - **Categorical features**:
 	* **Numerical categories**: columns 3 and 4
 		* These are features that have **at least three** numerical categories and have no order
@@ -22,7 +21,7 @@ The example [data file](/input/data_example.csv) contains ten made-up samples of
 	* We want to transform them into dummy variables of ones and zeros
 	* Due to multi-collinearity concerns, we also drop one of the dummy variables so that we are left with n-1 dummy variables
 - **Numerical features**: columns 7 and 8
-	* These features are numerical are stored as either integers or floats
+	* These features are typically integers or floats
 	* We want to apply a normalization technique on these values
 
 ### Implementation
