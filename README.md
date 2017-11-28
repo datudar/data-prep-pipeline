@@ -22,7 +22,7 @@ Note: The steps in this particular pipeline are purely for demonstration purpose
 
 The example [data file](/input/data_example.csv) contains ten samples with one target column, labeled "y", and eight feature columns of various data types. The pipeline reads in theis data and performs a few basic data preprocessing steps.
 
-First, the data is "upsampled" as it is intentionally imbalanced (i.e., there are only a couple examples of the positive class). Then, we feed the upsampled data through a pipeline which performs **feature selection**, **imputation** of missing values, **feature engineering** by creating dummy factors and adding polynomial and interaction features, and **transformation** using normalization scaling. The final data will contain thirteen samples with sixteen features. The output, y and X, can then be fed directly into a machine learning library such as scikit-learn.
+First, the data is "upsampled" as it is intentionally imbalanced (i.e., there are only a couple examples of the positive class). Then, we feed the upsampled data through a pipeline which performs: **1) feature selection**, **2) imputation** of missing values, **3) feature engineering** by creating dummy factors and adding polynomial and interaction features, and **4) transformation** using normalization scaling. The final data will contain thirteen samples with sixteen features. The output, y and X, can then be fed directly into a machine learning library such as scikit-learn.
 
 
 
