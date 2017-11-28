@@ -9,12 +9,11 @@ Note: The steps in this particular pipeline are purely for demonstration purpose
 The example [data file](/input/data_example.csv) contains ten made-up samples of one target column (labeled "y") and eight feature columns of various data categories. The following are characteristics of the three data categories:
 
 #### Target
-- **Binary features**: column 0
-	* These features have two categories: the positive class or the negative class, which are labeled 1 or 0, respectively
+- The target column has two categories: the positive class or the negative class, which are labeled 1 or 0, respectively
 
 #### Features
 - **Binary features**: columns 1 and 2
-	* These features have two categories: the positive class or the negative class, which are labeled 1 or 0, respectively
+	* These features are labeled 1 or 0
 - **Categorical features**:
 	* **Numerical categories**: columns 3 and 4
 		* These are features that have **at least three** numerical categories and have no order
@@ -28,11 +27,7 @@ The example [data file](/input/data_example.csv) contains ten made-up samples of
 
 ### Implementation
 
-The pipeline reads in the data and performs a few basic preprocessing steps.
-
-First, the data is "upsampled" as it is intentionally imbalanced (i.e., there are only two examples of the positive class).
-
-Then, we feed the upsampled data through a pipeline which performs: 
+The pipeline reads in the data and performs a few basic preprocessing steps. First, the data is "upsampled" as it is intentionally imbalanced (i.e., there are only two examples of the positive class). Then, we feed the upsampled data through a pipeline which performs: 
 1. **feature selection**
 2. **imputation** of missing values
 3. **feature engineering** by creating dummy variables, adding polynomial features, and adding interaction features
