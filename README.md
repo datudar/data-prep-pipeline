@@ -34,5 +34,5 @@ Then, we feed the upsampled data through a pipeline which performs:
 3. **feature engineering** by creating dummy variables, adding polynomial features, and adding interaction features
 4. **transformation** using normalization scaling
 
-Finally, the pipeline outputs thirteen samples with sixteen features. The output, y and X, can then be passed directly into the machine learning library of your choice.
+Finally, the pipeline outputs thirteen samples with sixteen features. The output, y and X, are now ready for further analysis.
 
