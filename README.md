@@ -26,11 +26,11 @@ The example [data file](/input/data_example.csv) contains ten made-up samples of
 
 ### Implementation
 
-The pipeline reads in the data and performs a few basic preprocessing steps. First, the data is "upsampled" as it is intentionally imbalanced (i.e., there are only two examples of the positive class). Then, we feed the upsampled data through a pipeline which performs: 
-1. **feature selection**
-2. **imputation** of missing values
-3. **feature engineering** by creating dummy variables, adding polynomial features, and adding interaction features
-4. **transformation** using normalization scaling
+The pipeline reads in the data and performs a few basic preprocessing steps. First, the data is "upsampled" as it is intentionally imbalanced (i.e., there are only two examples of the positive class). Then, it is fed through a pipeline which performs: 
+
+1. **imputation** of missing values
+2. **feature engineering** by creating dummy variables, adding polynomial features, and adding interaction features
+3. **transformation** using normalization scaling
+4. **feature selection** by placing a minimum requirement for the variability of the feature
 
 Finally, the pipeline outputs thirteen samples with sixteen features. The output, y and X, are now ready for further analysis.
-
