@@ -10,19 +10,13 @@ The example [input file](/input/data_example.csv) contains ten made-up samples o
 - The target column has two categories: the positive class and the negative class, which are labeled 1 and 0, respectively
 
 #### Features (X)
-- **Binary**
-	* Columns 1 and 2
+- **Binary** (features 1 and 2)
 - **Categorical**
-	* **Numerical categories**
-		* Columns 3 and 4
-		* These are features that have **at least three** numerical categories and have no order
-	* **Textual categories**
-		* Columns 5 and 6 
-		* These are features that have **at least three** textual categories
+	* Numerical categories (features 3 and 4): These are features that have **at least three** numerical categories and have no order
+	* Textual categories (features 5 and 6): These are features that have **at least three** textual categories
 	* We want to transform them into dummy variables of ones and zeros
 	* Due to multi-collinearity concerns, we also drop one of the dummy variables so that we are left with n-1 dummy variables
-- **Numerical**
-	* Columns 7 and 8
+- **Numerical (features 7 and 8)
 	* These features are typically integers or floats
 	* We want to apply a normalization technique on these values
 
