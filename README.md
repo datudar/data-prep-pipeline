@@ -4,12 +4,12 @@ This is a preprocessing [pipeline](/data_preprocessing.py) for handling heteroge
 
 ### Data
 
-The example [input file](/input/data_example.csv) contains ten made-up samples of one target column (labeled "y") and eight feature columns of various data categories.
+The example [input file](/input/data_example.csv) contains ten made-up samples of one target column and eight feature columns of various data categories.
 
-#### Target
+#### Target (y)
 - The target column has two categories: the positive class and the negative class, which are labeled 1 and 0, respectively
 
-#### Features
+#### Features (X)
 - **Binary**
 	* Columns 1 and 2
 - **Categorical**
