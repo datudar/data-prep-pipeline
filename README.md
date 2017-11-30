@@ -1,6 +1,6 @@
 ## Data Preprocessing Pipeline
 
-This is a preprocessing [pipeline](/data_preprocessing.py) for handling heterogeneous data such as **binary**, **categorical**, and **numerical** data.  Note: The steps in this particular pipeline are purely for demonstration purposes, so it is highly recommended you modify the pipeline to suit the needs of your analysis.
+This is a [preprocessing pipeline](/data_preprocessing.py) for handling heterogeneous data such as **binary**, **categorical**, and **numerical** data.  Note: The steps in this particular pipeline are purely for demonstration purposes, so it is highly recommended you modify the pipeline to suit the needs of your analysis.
 
 ### Data
 
@@ -11,14 +11,15 @@ The example [input file](/input/data_example.csv) contains ten made-up samples o
 
 #### Features (X)
 - **Binary** (features 1 and 2)
+	* These are features of ones and zeros and keep their values as they are
 - **Categorical**
-	* Numerical categories (features 3 and 4): These are features that have **at least three** numerical categories and have no order
-	* Textual categories (features 5 and 6): These are features that have **at least three** textual categories
-	* We want to transform them into dummy variables of ones and zeros
+	* **Numerical** (features 3 and 4): These are features that have **at least three** numerical categories and have no order
+	* **Textual** (features 5 and 6): These are features that have **at least three** textual categories
+	* We transform these features into dummy variables of ones and zeros
 	* Due to multi-collinearity concerns, we also drop one of the dummy variables so that we are left with n-1 dummy variables
-- **Numerical (features 7 and 8)
+- **Numerical** (features 7 and 8)
 	* These features are typically integers or floats
-	* We want to apply a normalization technique on these values
+	* We apply normalization on these values
 
 ### Implementation
 
