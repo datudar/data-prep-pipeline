@@ -11,7 +11,7 @@ The example [input file](/input/data_example.csv) contains ten made-up samples o
 
 #### Features (X)
 - **Binary** (features 1 and 2)
-	* These are features of ones and zeros and keep their values as they are
+	* These are features of ones and zeros and we keep their values as they are
 - **Categorical**
 	* **Numerical** (features 3 and 4): These are features that have **at least three** numerical categories and have no order
 	* **Textual** (features 5 and 6): These are features that have **at least three** textual categories
@@ -23,7 +23,7 @@ The example [input file](/input/data_example.csv) contains ten made-up samples o
 
 ### Implementation
 
-The pipeline reads in the input file and performs a few basic preprocessing steps ont he features. First, the data is "upsampled" as it is intentionally imbalanced (i.e., there are only two examples of the positive class). Then, it is fed through a pipeline which performs: 
+The pipeline reads in the input file and performs a few basic preprocessing steps on the features. First, the data is "upsampled" as it is intentionally imbalanced (i.e., there are only two examples of the positive class). Then, the date is fed through a pipeline which performs:
 
 1. **imputation** of missing values
 2. **feature engineering** by creating dummy variables, adding polynomial features, and adding interaction features
