@@ -1,6 +1,6 @@
 ## Data Preprocessing Pipeline
 
-This is a [preprocessing pipeline](/data_preprocessing.py) for handling heterogeneous data such as **binary**, **categorical**, and **numerical** data. Please note that the steps in this particular pipeline are purely for demonstration purposes, so it is highly recommended you modify the pipeline to suit the needs of your analysis.
+This is a [preprocessing pipeline](/preprocessing_pipeline.py) for handling heterogeneous data such as **binary**, **categorical**, and **numerical** data. *Note: The steps in this particular pipeline are purely for demonstration purposes, so it is highly recommended you modify the pipeline to suit the needs of your analysis.*
 
 ### Data
 
