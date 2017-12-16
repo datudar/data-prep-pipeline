@@ -31,3 +31,7 @@ The pipeline reads in the input file and performs a few basic preprocessing step
 4. **feature selection** by placing a minimum variability requirement
 
 Finally, the pipeline outputs thirteen samples with sixteen features. The output, y and X, are now ready for further analysis.
+
+### License
+
+This project is licensed under the [MIT License](/LICENSE).
