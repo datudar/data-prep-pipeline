@@ -4,7 +4,7 @@ This is a [preprocessing pipeline](/preprocessing_pipeline.py) for handling hete
 
 ### Data
 
-The example [input file](/input/data_example.csv) contains ten made-up samples of one target column and eight feature columns. The features are of various data categories, and we treat each data category differently.
+The example [input file](/input/data_example.csv) contains ten made-up samples of one target column and eight feature columns, which are of various data categories.
 
 #### Target (y)
 - The target column has two classes: the positive class and the negative class, which are labeled 1 and 0, respectively
