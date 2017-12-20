@@ -6,10 +6,10 @@ This is a [preprocessing pipeline](/preprocessing_pipeline.py) for handling hete
 
 The example [input file](/input/data_example.csv) contains ten made-up samples of one target column and eight feature columns, which are of various data categories.
 
-#### Target (y)
+**Target (y)**
 - The target column has two classes: the positive class and the negative class, which are labeled 1 and 0, respectively
 
-#### Features (X)
+**Features (X)**
 - **Binary** (features 1 and 2)
 	* These are features of ones and zeros and we keep their values as they are
 - **Categorical**
@@ -21,7 +21,7 @@ The example [input file](/input/data_example.csv) contains ten made-up samples o
 	* These features are typically integers or floats
 	* We apply normalization on these values
 
-### Implementation
+### How It Works
 
 The pipeline reads in the input file and performs a few basic preprocessing steps on the features. First, the data is "upsampled" as it is intentionally imbalanced (i.e., there are only two examples of the positive class). Then, the data is fed through a pipeline which performs:
 
